@@ -69,7 +69,10 @@ namespace ReplayAPI
             ClickFrames.Clear();
         }
 
-
+        /// <summary>
+        /// Creates a new Replay object
+        /// </summary>
+        /// <param name="replayFile">The replay file to open</param>
         public void Open(string replayFile)
         {
             Filename = replayFile;
@@ -85,14 +88,15 @@ namespace ReplayAPI
             }
         }
 
+        /// <summary>
+        /// Loads Metadata if not already loaded and loads Lifedata, Timestamp, Playtime and Clicks.
+        /// </summary>
         public void LoadReplayData()
         {
             if (replayReader != null)
             {
                 if (replayReader.BaseStream.Position == 0)
-                {
                     LoadMetadata();
-                }
                 bool lifeExists = int.Parse(GetReversedString(replayReader, 1), NumberStyles.HexNumber) == 0x0B;
                 if (lifeExists)
                 {
@@ -110,7 +114,6 @@ namespace ReplayAPI
                 PlayTime = new DateTime(timeStamp);
 
                 ReplayLength = int.Parse(GetReversedString(replayReader, 4), NumberStyles.HexNumber);
-
 
                 MemoryStream outStream = coder.Decompress(replayFileStream);
 
@@ -138,9 +141,12 @@ namespace ReplayAPI
                     ReplayFrames.Add(tempInfo);
                     lastKey = tempInfo.Keys;
                 }
-            }      
+            } 
         }
 
+        /// <summary>
+        /// Loads Metadata (score screen values)
+        /// </summary>
         public void LoadMetadata()
         {
             if (replayReader != null)
@@ -175,6 +181,10 @@ namespace ReplayAPI
             }
         }
 
+        /// <summary>
+        /// Saves the replay
+        /// </summary>
+        /// <param name="file">The file to save as</param>
         public void Save(string file)
         {
             using (BinaryWriter bW = new BinaryWriter(new FileStream(file, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite)))
@@ -226,6 +236,11 @@ namespace ReplayAPI
             }
         }
 
+        /// <summary>
+        /// Writes a variable length quantity to the stream
+        /// </summary>
+        /// <param name="writer">The stream to write to</param>
+        /// <param name="bytes">The data to write</param>
         private static void WriteVLQ(BinaryWriter writer, byte[] bytes)
         {
             int n = bytes.Length;
@@ -243,12 +258,18 @@ namespace ReplayAPI
             writer.Write(bytes);
         }
 
-        static string GetReversedString(BinaryReader br, int length)
+        private static string GetReversedString(BinaryReader br, int length)
         {
             byte[] readBytes = br.ReadBytes(length).Reverse().ToArray();
             return readBytes.Aggregate("", (current, b) => current + (b < 16 ? "0" : "") + b.ToString("X"));
         }
-        static int GetChunkLength(BinaryReader br)
+
+        /// <summary>
+        /// Gets the chunk length of a VLQ
+        /// </summary>
+        /// <param name="br">The stream to read from</param>
+        /// <returns>The length in bytes of the VLQ</returns>
+        private static int GetChunkLength(BinaryReader br)
         {
             int shift = 0;
             int chunkLength = 0;
@@ -263,6 +284,9 @@ namespace ReplayAPI
             return chunkLength;
         }
 
+        /// <summary>
+        /// Replay play modes
+        /// </summary>
         public enum GameModes
         {
             osu = 0,
