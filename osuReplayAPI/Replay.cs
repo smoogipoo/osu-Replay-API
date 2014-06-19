@@ -63,7 +63,7 @@ namespace ReplayAPI
             if (replayFileStream != null)
                 replayFileStream.Dispose();
             if (replayReader != null)
-                replayReader.Dispose();
+                replayReader.Close();
             ReplayFrames.Clear();
             LifeData.Clear();
             ClickFrames.Clear();
