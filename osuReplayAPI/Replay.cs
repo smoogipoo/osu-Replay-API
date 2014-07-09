@@ -104,7 +104,7 @@ namespace ReplayAPI
                     foreach (LifeInfo tempLife in tempLifeStr.Split(',').Select(lifeStr => lifeStr.Split('|')).Where(lifeStr => lifeStr.Length > 1).Select(lifeStr => new LifeInfo
                     {
                         Time = Convert.ToInt32(lifeStr[0]),
-                        Percentage = Convert.ToDouble(lifeStr[1]),
+                        Percentage = (float)Convert.ToDouble(lifeStr[1]),
                     }))
                     {
                         LifeData.Add(tempLife);
@@ -131,8 +131,8 @@ namespace ReplayAPI
                     tempInfo.TimeDiff = Convert.ToInt64(reSplit[0]);
                     lastTime += (int)tempInfo.TimeDiff;
                     tempInfo.Time = lastTime;
-                    tempInfo.X = Convert.ToDouble(reSplit[1]);
-                    tempInfo.Y = Convert.ToDouble(reSplit[2]);
+                    tempInfo.X = (float)Convert.ToDouble(reSplit[1]);
+                    tempInfo.Y = (float)Convert.ToDouble(reSplit[2]);
                     tempInfo.Keys = (KeyData)Convert.ToInt32(reSplit[3]);
                     if (tempInfo.Keys != KeyData.None && lastKey != tempInfo.Keys)
                     {
