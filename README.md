@@ -6,7 +6,7 @@ An API for quick read and write to osu! Replay Files.
 
 What you need to be able to use it:
 -----------------------------------
-.NET Framework 3.5
+.NET Framework 2.0
 
 
 Directions for use:
@@ -22,8 +22,8 @@ Usage example:
 			//Load the replay into a new replay object
             ReplayAPI.Replay rep = new ReplayAPI.Replay(@"C:\MyReplayFile.osr");
 
-            //We do not need to load the entire replay, just the score-screen contents
-            rep.LoadMetadata();
+        	//Or we can prompty a full load by
+        	//ReplayAPI.Replay rep = new ReplayAPI.Replay(@"C:\MyReplayFile.osr", true);
 
             //Lets do some pretty printing!
             Console.WriteLine("You've hit {0} 300s, {1} 100s, {2} 50s and {3} misses.", rep.Count_300, rep.Count_100, rep.Count_50, rep.Count_Miss);
