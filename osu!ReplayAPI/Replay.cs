@@ -136,6 +136,8 @@ namespace ReplayAPI
                 }
             }
 
+            //Todo: There are some extra bytes here
+
             fullLoaded = true;
         }
 
@@ -189,6 +191,8 @@ namespace ReplayAPI
                         bw.Write(rawBytesCompressed);
                     }
                 }
+
+                //Todo: There are some extra bytes here
             }
         }
 
