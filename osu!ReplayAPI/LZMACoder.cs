@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using SevenZip;
+using SevenZip.Compression.LZMA;
 
 namespace ReplayAPI
 {
-    class LZMACoder
+    public class LZMACoder
     {
-        public MemoryStream Compress(MemoryStream inStream)
+        public static MemoryStream Compress(MemoryStream inStream)
         {
             inStream.Position = 0;
 
@@ -27,7 +28,7 @@ namespace ReplayAPI
             };
 
             var outStream = new MemoryStream();
-            SevenZip.Compression.LZMA.Encoder encoder = new SevenZip.Compression.LZMA.Encoder();
+            Encoder encoder = new Encoder();
             encoder.SetCoderProperties(propIDs, properties);
             encoder.WriteCoderProperties(outStream);
             for (int i = 0; i < 8; i++)
@@ -39,9 +40,9 @@ namespace ReplayAPI
             return outStream;
         }
 
-        public MemoryStream Decompress(FileStream inStream)
+        public static MemoryStream Decompress(FileStream inStream)
         {
-            SevenZip.Compression.LZMA.Decoder decoder = new SevenZip.Compression.LZMA.Decoder();
+            Decoder decoder = new Decoder();
 
             byte[] properties = new byte[5];
             if (inStream.Read(properties, 0, 5) != 5)

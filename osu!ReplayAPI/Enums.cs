@@ -3,7 +3,7 @@
 namespace ReplayAPI
 {
     [Flags]
-    public enum KeyData
+    public enum Keys
     {
         None = 0,
         M1 = (1 << 0),
@@ -13,7 +13,7 @@ namespace ReplayAPI
     }
 
     [Flags]
-    public enum Modifications
+    public enum Mods
     {
         None = 0,
         NoFail = (1 << 0),
@@ -36,5 +36,13 @@ namespace ReplayAPI
         Mania6K = (1 << 17),
         Mania7K = (1 << 18),
         Mania8K = (1 << 19),
+    }
+
+    public enum GameModes
+    {
+        osu = 0,
+        Taiko = 1,
+        CtB = 2,
+        Mania = 3
     }
 }
