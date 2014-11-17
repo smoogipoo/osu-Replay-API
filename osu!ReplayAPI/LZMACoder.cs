@@ -11,7 +11,8 @@ namespace ReplayAPI
         {
             inStream.Position = 0;
 
-            CoderPropID[] propIDs =  {
+            CoderPropID[] propIDs =
+            {
                 CoderPropID.DictionarySize,
                 CoderPropID.PosStateBits,
                 CoderPropID.LitContextBits,
@@ -19,7 +20,8 @@ namespace ReplayAPI
                 CoderPropID.Algorithm,
             };
 
-            object[] properties = {
+            object[] properties = 
+            {
                 (1 << 16),
                 2,
                 3,

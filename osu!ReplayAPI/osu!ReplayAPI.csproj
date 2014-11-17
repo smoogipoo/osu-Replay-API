@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="LifeFrame.cs" />
     <Compile Include="LZMACoder.cs" />
     <Compile Include="LZMA\CommandLineParser.cs" />

@@ -52,9 +52,9 @@ namespace ReplayAPI
         {
             GameMode = (GameModes)Enum.Parse(typeof(GameModes), replayReader.ReadByte().ToString(culture));
             FileFormat = replayReader.ReadInt32();
-            MapHash = readString(replayReader);
-            PlayerName = readString(replayReader);
-            ReplayHash = readString(replayReader);
+            MapHash = replayReader.ReadNullableString();
+            PlayerName = replayReader.ReadNullableString();
+            ReplayHash = replayReader.ReadNullableString();
             Count300 = replayReader.ReadUInt16();
             Count100 = replayReader.ReadUInt16();
             Count50 = replayReader.ReadUInt16();
@@ -79,7 +79,7 @@ namespace ReplayAPI
                 return;
 
             //Life
-            string lifeData = replayReader.ReadByte() == 0 ? null : replayReader.ReadString();
+            string lifeData = replayReader.ReadNullableString();
             if (!string.IsNullOrEmpty(lifeData))
             {
                 foreach (string lifeBlock in lifeData.Split(','))
@@ -148,9 +148,9 @@ namespace ReplayAPI
                 //Header
                 bw.Write((byte)GameMode);
                 bw.Write(FileFormat);
-                writeString(bw, MapHash);
-                writeString(bw, PlayerName);
-                writeString(bw, ReplayHash);
+                bw.WriteNullableString(MapHash);
+                bw.WriteNullableString(PlayerName);
+                bw.WriteNullableString(ReplayHash);
                 bw.Write(Count300);
                 bw.Write(Count100);
                 bw.Write(Count50);
@@ -163,22 +163,22 @@ namespace ReplayAPI
                 bw.Write((int)Mods);
 
                 //Life
-                string rawLife = "";
+                StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < LifeFrames.Count; i++)
-                    rawLife += string.Format("{0}|{1},", LifeFrames[i].Time.ToString(culture), LifeFrames[i].Percentage.ToString(culture));
-                writeString(bw, rawLife);
+                    sb.AppendFormat("{0}|{1},", LifeFrames[i].Time.ToString(culture), LifeFrames[i].Percentage.ToString(culture));
+                bw.WriteNullableString(sb.ToString());
 
-                bw.Write(PlayTime.ToUniversalTime().Ticks.ToString(culture));
+                bw.Write(PlayTime.ToUniversalTime().Ticks);
 
                 //Data
                 if (ReplayFrames.Count == 0)
-                    bw.Write(-1);
+                    bw.Write(0);
                 else
                 {
-                    string rawData = "";
+                    sb.Clear();
                     for (int i = 0; i < ReplayFrames.Count; i++)
-                        rawData += string.Format("{0}|{1}|{2}|{3},", ReplayFrames[i].TimeDiff.ToString(culture), ReplayFrames[i].X.ToString(culture), ReplayFrames[i].Y.ToString(culture), (int)ReplayFrames[i].Keys);
-                    byte[] rawBytes = Encoding.ASCII.GetBytes(rawData);
+                        sb.AppendFormat("{0}|{1}|{2}|{3},", ReplayFrames[i].TimeDiff.ToString(culture), ReplayFrames[i].X.ToString(culture), ReplayFrames[i].Y.ToString(culture), (int)ReplayFrames[i].Keys);
+                    byte[] rawBytes = Encoding.ASCII.GetBytes(sb.ToString());
                     using (MemoryStream ms = new MemoryStream())
                     {
                         ms.Write(rawBytes, 0, rawBytes.Length);
@@ -193,24 +193,6 @@ namespace ReplayAPI
                 }
 
                 //Todo: There are some extra bytes here
-            }
-        }
-
-        private string readString(BinaryReader br)
-        {
-            if (br.ReadByte() == 0)
-                return null;
-            return br.ReadString();
-        }
-
-        private void writeString(BinaryWriter bw, string data)
-        {
-            if (string.IsNullOrEmpty(data))
-                bw.Write(0);
-            else
-            {
-                bw.Write((byte)0x0B);
-                bw.Write(data);
             }
         }
 
