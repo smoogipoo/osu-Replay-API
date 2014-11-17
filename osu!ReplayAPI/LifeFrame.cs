@@ -1,7 +1,7 @@
 ﻿
 namespace ReplayAPI
 {
-    public class LifeFrame
+    public struct LifeFrame
     {
         public int Time;
         public float Percentage;
