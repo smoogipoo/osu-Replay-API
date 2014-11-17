@@ -178,6 +178,7 @@ namespace ReplayAPI
                     sb.Clear();
                     for (int i = 0; i < ReplayFrames.Count; i++)
                         sb.AppendFormat("{0}|{1}|{2}|{3},", ReplayFrames[i].TimeDiff.ToString(culture), ReplayFrames[i].X.ToString(culture), ReplayFrames[i].Y.ToString(culture), (int)ReplayFrames[i].Keys);
+                    sb.AppendFormat("{0}|{1}|{2}|{3},", -12345, 0, 0, Seed);
                     byte[] rawBytes = Encoding.ASCII.GetBytes(sb.ToString());
                     using (MemoryStream ms = new MemoryStream())
                     {
