@@ -24,10 +24,10 @@ namespace ReplayAPI
         public UInt16 MaxCombo;
         public bool IsPerfect;
         public Mods Mods;
-        public List<LifeInfo> LifeFrames = new List<LifeInfo>();
+        public List<LifeFrame> LifeFrames = new List<LifeFrame>();
         public DateTime PlayTime;
         public int ReplayLength;
-        public List<ReplayInfo> ReplayFrames = new List<ReplayInfo>();
+        public List<ReplayFrame> ReplayFrames = new List<ReplayFrame>();
         public int Seed;
 
         private BinaryReader replayReader;
@@ -88,7 +88,7 @@ namespace ReplayAPI
                     if (split.Length < 2)
                         continue;
 
-                    LifeFrames.Add(new LifeInfo()
+                    LifeFrames.Add(new LifeFrame()
                     {
                         Time = int.Parse(split[0], culture.NumberFormat),
                         Percentage = float.Parse(split[1], culture.NumberFormat)
@@ -123,7 +123,7 @@ namespace ReplayAPI
                             continue;
                         }
 
-                        ReplayFrames.Add(new ReplayInfo()
+                        ReplayFrames.Add(new ReplayFrame()
                         {
                             TimeDiff = int.Parse(split[0], culture.NumberFormat),
                             Time = int.Parse(split[0], culture.NumberFormat) + lastTime,

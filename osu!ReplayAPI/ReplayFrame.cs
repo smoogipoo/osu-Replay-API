@@ -2,7 +2,7 @@
 
 namespace ReplayAPI
 {
-    public class ReplayInfo
+    public class ReplayFrame
     {
         public int TimeDiff;
         public int Time;

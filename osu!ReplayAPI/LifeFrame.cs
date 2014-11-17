@@ -1,7 +1,7 @@
 ﻿
 namespace ReplayAPI
 {
-    public class LifeInfo
+    public class LifeFrame
     {
         public int Time;
         public float Percentage;

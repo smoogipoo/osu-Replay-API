@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
-    <Compile Include="LifeInfo.cs" />
+    <Compile Include="LifeFrame.cs" />
     <Compile Include="LZMACoder.cs" />
     <Compile Include="LZMA\CommandLineParser.cs" />
     <Compile Include="LZMA\CRC.cs" />
@@ -62,7 +62,7 @@
     <Compile Include="LZMA\RangeCoder.cs" />
     <Compile Include="LZMA\RangeCoderBit.cs" />
     <Compile Include="LZMA\RangeCoderBitTree.cs" />
-    <Compile Include="ReplayInfo.cs" />
+    <Compile Include="ReplayFrame.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
