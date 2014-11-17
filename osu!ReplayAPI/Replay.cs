@@ -90,8 +90,8 @@ namespace ReplayAPI
 
                     LifeFrames.Add(new LifeFrame()
                     {
-                        Time = int.Parse(split[0], culture.NumberFormat),
-                        Percentage = float.Parse(split[1], culture.NumberFormat)
+                        Time = int.Parse(split[0], culture),
+                        Percentage = float.Parse(split[1], culture)
                     });
                 }
             }
@@ -119,16 +119,16 @@ namespace ReplayAPI
 
                         if (split[0] == "-12345")
                         {
-                            Seed = int.Parse(split[3], culture.NumberFormat);
+                            Seed = int.Parse(split[3], culture);
                             continue;
                         }
 
                         ReplayFrames.Add(new ReplayFrame()
                         {
-                            TimeDiff = int.Parse(split[0], culture.NumberFormat),
-                            Time = int.Parse(split[0], culture.NumberFormat) + lastTime,
-                            X = float.Parse(split[1]),
-                            Y = float.Parse(split[2]),
+                            TimeDiff = int.Parse(split[0], culture),
+                            Time = int.Parse(split[0], culture) + lastTime,
+                            X = float.Parse(split[1], culture),
+                            Y = float.Parse(split[2], culture),
                             Keys = (Keys)Enum.Parse(typeof(Keys), split[3])
                         });
                         lastTime = ReplayFrames[ReplayFrames.Count - 1].Time;
@@ -165,10 +165,10 @@ namespace ReplayAPI
                 //Life
                 string rawLife = "";
                 for (int i = 0; i < LifeFrames.Count; i++)
-                    rawLife += string.Format("{0}|{1},", LifeFrames[i].Time.ToString(culture.NumberFormat), LifeFrames[i].Percentage.ToString(culture.NumberFormat));
+                    rawLife += string.Format("{0}|{1},", LifeFrames[i].Time.ToString(culture), LifeFrames[i].Percentage.ToString(culture));
                 writeString(bw, rawLife);
 
-                bw.Write(PlayTime.ToUniversalTime().Ticks);
+                bw.Write(PlayTime.ToUniversalTime().Ticks.ToString(culture));
 
                 //Data
                 if (ReplayFrames.Count == 0)
@@ -177,7 +177,7 @@ namespace ReplayAPI
                 {
                     string rawData = "";
                     for (int i = 0; i < ReplayFrames.Count; i++)
-                        rawData += string.Format("{0}|{1}|{2}|{3},", ReplayFrames[i].TimeDiff, ReplayFrames[i].X, ReplayFrames[i].Y, (int)ReplayFrames[i].Keys);
+                        rawData += string.Format("{0}|{1}|{2}|{3},", ReplayFrames[i].TimeDiff.ToString(culture), ReplayFrames[i].X.ToString(culture), ReplayFrames[i].Y.ToString(culture), (int)ReplayFrames[i].Keys);
                     byte[] rawBytes = Encoding.ASCII.GetBytes(rawData);
                     using (MemoryStream ms = new MemoryStream())
                     {
